@@ -2,8 +2,6 @@ import os
 import tkinter as tk
 from tkinter import ttk
 
-
-
 class NewRegionsEsetDialog():
 
     def __init__(self, parent, title, regions_list):

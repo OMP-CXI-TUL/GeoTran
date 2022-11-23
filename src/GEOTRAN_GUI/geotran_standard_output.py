@@ -38,7 +38,7 @@ class OutputThread(threading.Thread):
       width = self.appwin.winfo_width()
       height = self.appwin.winfo_height() + 65
       w.geometry("+%d+%d" % (x, y + height))
-      w.title("Geotran tools Processing info")
+      w.title("GEOTRANtools processing log")
       w.protocol("WM_DELETE_WINDOW", self.no_close)
       w.columnconfigure(0, weight=1)
       w.rowconfigure(0,weight=1)

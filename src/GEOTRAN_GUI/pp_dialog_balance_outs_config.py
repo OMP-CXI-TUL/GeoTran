@@ -4,7 +4,7 @@ from tkinter import ttk
 from functools import partial
 from tkinter.messagebox import showinfo
 
-from setuptools.command.register import register
+#from setuptools.command.register import register
 
 
 class BalanceOutputConfigurationDialog():

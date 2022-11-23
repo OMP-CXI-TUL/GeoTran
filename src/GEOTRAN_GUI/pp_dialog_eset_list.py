@@ -1,6 +1,5 @@
 import os
 import tkinter as tk
-from tkinter import filedialog
 from tkinter import ttk
 
 
@@ -51,8 +50,6 @@ class EsetListDialog():
         self.phases.del_eset(s:=self.lb_esets.get(a[0]))
         self.res_del.append(s)
         self._update_list()
-
-        
 
     def onClose(self, event=None):
         self.topWin.destroy()

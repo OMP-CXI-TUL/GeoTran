@@ -12,13 +12,6 @@ class NewDepthLevelGridDialog():
         self.topWin.geometry("+%d+%d" % (x + 100, y + 100))
         if len(title) > 0: self.topWin.title(title)
 
-        # # ovladaci prvky dialogoveho boxu
-        # columns 3
-        # rows 5
-
-        # self.topWin.columnconfigure(0, minsize=10, pad=2)
-        # self.topWin.columnconfigure(1, minsize=10, pad=2)
-        # self.topWin.columnconfigure(2, minsize=10, pad=2)
         self.topWin.columnconfigure(1, weight=1)
 
         lbl = ttk.Label(self.topWin, text= 'Grid name :')

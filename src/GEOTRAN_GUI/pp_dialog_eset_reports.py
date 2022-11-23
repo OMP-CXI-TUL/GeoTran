@@ -6,7 +6,6 @@ from tkinter import ttk
 from pp_dialog_report_base_1 import ReportBase1Dialog
 
 
-
 class ReportEsetMaxValueDialog(ReportBase1Dialog):
 
    def __init__(self, parent, phases, output_dir):

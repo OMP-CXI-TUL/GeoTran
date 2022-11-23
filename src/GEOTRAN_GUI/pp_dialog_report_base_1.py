@@ -38,14 +38,14 @@ class ReportBase1Dialog():
 
         # column 1 - species
         lbl = ttk.Label(w, text='Species:')
-        self.lb_species = tk.Listbox(w, width=20, selectforeground='Black', exportselection=False, selectmode=tk.MULTIPLE)
+        self.lb_species = tk.Listbox(w, width=20, selectforeground='Black', exportselection=False, selectmode=tk.EXTENDED)
         self.lb_species.insert(tk.END, *phases.get_e_data_names_loaded())
         lbl.grid(row=0, column=1, sticky=tk.W)
         self.lb_species.grid(row=1, column=1, rowspan=7, padx=2, pady=2, sticky=tk.W+tk.E+tk.S+tk.N)
        
         # column 2 - times
         lbl = ttk.Label(w, text='Times:')
-        self.lb_times = tk.Listbox(w, width=10, selectforeground='Black', exportselection=False, selectmode=tk.MULTIPLE)
+        self.lb_times = tk.Listbox(w, width=10, selectforeground='Black', exportselection=False, selectmode=tk.EXTENDED)
         self.lb_times.bind('<<ListboxSelect>>', self.on_lb_times_selection)
         self.lb_times.insert(tk.END, *phases.get_e_data_times_loaded())
         lbl.grid(row=0, column=2, sticky=tk.W)

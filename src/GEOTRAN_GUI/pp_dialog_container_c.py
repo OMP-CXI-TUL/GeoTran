@@ -2,10 +2,8 @@ import os, sys
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showerror, showinfo
-from turtle import title
 
-container_c_dir = "../../CONTAINER_C/CONTAINER_C"
-sys.path.append(container_c_dir)
+
 import CONTAINER_C
 
 

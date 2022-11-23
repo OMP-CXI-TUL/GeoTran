@@ -2,8 +2,6 @@
 import os
 import time
 import tkinter as tk
-import tkinter
-from tkinter import ttk
 from tkinter import scrolledtext
 from functools import partial
 from functools import wraps
@@ -22,7 +20,7 @@ class GeotranApp ():
     protocolRecorder = None
     topInfoPanel = None
     mainMenuHandler = None
-    textInfoDim = (120, (5, 10, 0))
+    textInfoDim = (120, (2, 15, 0))
     protocolChanged = False
     iconFilepath = './icons/geotran_32_53.ico'
 

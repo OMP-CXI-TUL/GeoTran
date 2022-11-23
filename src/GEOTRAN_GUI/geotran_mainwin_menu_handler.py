@@ -1,4 +1,4 @@
-import os, sys
+import os
 
 import tkinter as tk
 from tkinter import messagebox
@@ -18,7 +18,10 @@ from pp_dialog_eset_reports import ReportEsetMaxValueDialog, ReportEsetMaxValues
 from pp_dialog_grid_reports import ReportGridMaxValueDialog, ReportGridMaxValuesDifferenceDialog, ReportGridQuantilesDialog, ReportGridAreaOverLimitsDialog, ReportGridImagesDialog, ReportGridASCDialog, ReportGridDifferenceASCDialog, ReportGridASCasPctDialog, ReportGridDifferenceASCasPctDialog
 from pp_dialog_container_c import ContainerCDialog
 from pp_dialog_options import BalanceOptionsDialog, TransportOptionsDialog
+from geotran_about import AboutWin
+from postpro_interface import PostProInterface
 
+postpro_dir = "./POSTPRO/"
 
 textFiletypes = [('Text files', '*.txt'),('All files', '*')]
 meshFiletypes = [('Mesh files', '*.msh'),('Mesh version 2 files', '*.msh2'),('All files', '*')]
@@ -530,13 +533,14 @@ class GeotranMainmenuHandler():
     # dost mozna nebude treba dekorovat
     # neni treba kontrolovat senderApp a midata
     #@GeotranApp.perform_nonlogged_action
-    def doHelpShowDoc(self, senderApp=None, midata=None):
-        print("Displaying user documentation")
-        pass
+    # def doHelpShowDoc(self, senderApp=None, midata=None):
+    #     print("Displaying user documentation")
+    #     pass
 
     #@GeotranApp.perform_nonlogged_action
     def doHelpShowAbout(self, senderApp=None, midata=None):
-        print("Displaying about box")
+        about = AboutWin(self.parentWin)
+        self.parentWin.wait_window(about.topWin)
         pass
 
     #-------------------------------------------------------------------
@@ -606,5 +610,6 @@ class GeotranMainmenuHandler():
             self.baseActionsHandlers.get("app_terminator",
                 lambda name="app_terminator": self.noHandlerFound(name))()
         
+
 
 

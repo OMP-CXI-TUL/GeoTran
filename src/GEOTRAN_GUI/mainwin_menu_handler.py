@@ -19,12 +19,6 @@ from pp_dialog_grid_reports import ReportGridMaxValueDialog, ReportGridMaxValues
 from pp_dialog_container_c import ContainerCDialog
 from pp_dialog_options import BalanceOptionsDialog, TransportOptionsDialog
 
-# postpro_dir = "../POSTPRO/"
-# sys.path.append(postpro_dir)
-# from postpro_interface import PostProInterface
-# postpro_dir = "../../POSTPRO/POSTPRO/"
-# sys.path.append(postpro_dir)
-# from postpro_interface import PostProInterface
 
 textFiletypes = [('Text files', '*.txt'),('All files', '*')]
 meshFiletypes = [('Mesh files', '*.msh'),('Mesh version 2 files', '*.msh2'),('All files', '*')]
@@ -44,29 +38,6 @@ class GeotranMainmenuHandler():
         self.postpro_meshphases = None
         self.last_grid_inputs = []
         self.gtapp = gtapp
- 
-
-        # *********** za ucelem testovani ************
-        
-        # cesta = "d:/big_data/"
-        # mesh_LC = cesta+"data_LC_A5/labe_cert_sc1b_000_reach.msh"
-        # data_LC_A5 = [cesta+"data_LC_A5/A5_out_"+t+"/mass_transport.msh" for t in ["000","025","050","075","100","125","150","175"]]
-        # data_LC_C1 = [cesta+"data_LC_C1/11_C1_out_"+t+"/labe_cert_c1_"+t+"_mass_transport.msh" for t in (str(t).zfill(3) for t in range(0,200,5))]
-        # p = self.postpro_meshphases = PostProInterface('1000.y')
-        # p.params.set_postpro_dir(postpro_dir)
-        # p.params.set_time_source_unit('s')
-        # p.load_mesh_phases(data_LC_C1, 40*[mesh_LC])
-        # p.mesh_phases.load_element_data(None, None, [0,1])
-        # p.mesh_phases.add_eset_level_range(50,150, None)
-        # p.mesh_phases.add_eset_level_range(150, 200, None)
-        # p.mesh_phases.add_eset_level_range(200, 250, None)
-        # p.mesh_phases.create_grid_positions(100, 6, None)
-        # p.mesh_phases.add_grid_deep(50, None)
-        # p.mesh_phases.add_grid_level(50, None)
-        
-        # ***********************************************
-        
-
 
         self.initialdir = os.path.abspath(os.curdir)
         self.protocolFiledir = self.initialdir

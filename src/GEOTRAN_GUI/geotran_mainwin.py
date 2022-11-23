@@ -11,9 +11,9 @@ from builtins import isinstance
 from datetime import datetime
 import psutil
 
-import mainwin_menu_handler
+import geotran_mainwin_menu_handler
 
-import standard_output
+import geotran_standard_output
 
 class GeotranApp ():
     rootWindow = None
@@ -44,7 +44,7 @@ class GeotranApp ():
         # style = ttk.Style(self.rootWindow)
         # style.theme_use('xpnative')
         # menu settings
-        self.mainMenuHandler = mainwin_menu_handler.GeotranMainmenuHandler(self, self.rootWindow, self.baseActionPerformers)
+        self.mainMenuHandler = geotran_mainwin_menu_handler.GeotranMainmenuHandler(self, self.rootWindow, self.baseActionPerformers)
         self.setupMenu()
         self.initState()
         # desktop settings
@@ -87,14 +87,12 @@ class GeotranApp ():
         self.protocolRecorder.pack(side=tk.TOP, expand=True, fill=tk.BOTH)
 
         b = self.bottomInfoPanel = tk.Text(self.rootWindow, )
-        self.bottomInfoPanel.configure(width=self.textInfoDim[0], height=3) # self.textInfoDim[1][2])
+        self.bottomInfoPanel.configure(width=self.textInfoDim[0], height=self.textInfoDim[1][2])
         self.bottomInfoPanel.configure(relief=tk.SUNKEN, bg="light grey", fg='black')
         self.bottomInfoPanel.configure(state=tk.NORMAL)
         self.bottomInfoPanel.pack(fill=tk.X, side=tk.BOTTOM)
         
-        standard_output.init_standard_output(self)
         
-
     def runApp(self):
         print("Running application ...")
         self.rootWindow.mainloop()
@@ -256,8 +254,9 @@ class GeotranApp ():
 
 def runAsMain():
     geotranApp = GeotranApp()
+    geotran_standard_output.initialize(geotranApp.rootWindow)
     geotranApp.runApp()
+    geotran_standard_output.terminate()
 
-if __name__ == "__main__":
-    runAsMain()
+
 

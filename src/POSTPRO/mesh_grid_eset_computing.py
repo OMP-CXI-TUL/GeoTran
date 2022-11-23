@@ -383,6 +383,7 @@ class MeshGridEsetComputing(MeshGridEsetModel):
                b = data >= isolines[2]
                img[b] = (255, 0, 0)
             f_name = out_dir + "/" + "_".join([file_prefix, g.ljust(max_grid_name_len), n.ljust(max_name_len), t.zfill(max_time_len)]).replace(" ","_") + "." + file_extension
+            img[:] = np.flip(img, axis=0)
             imsave(f_name, img)
             self.info("file '{:s}' writen".format(f_name))
          self.try_clear_grids_IDW_e_weights()
@@ -398,6 +399,7 @@ class MeshGridEsetComputing(MeshGridEsetModel):
          f.write("cellsize     {:g}\n".format(self.grid_step))
          f.write("NODATA_value {:g}\n".format(value_instead_of_nan))
          data[np.isnan(data)] = value_instead_of_nan
+         data[:] = np.flip(data, axis=0)
          for row in data: f.write(row_format.format(*row))
 
 

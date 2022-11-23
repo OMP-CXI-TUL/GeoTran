@@ -8,7 +8,7 @@ sys.path.append(gui_dir)
 sys.path.append(pp_dir)
 sys.path.append(cont_dir)
 
-import GEOTRAN_GUI.mainwin as GT_mainwin
+import GEOTRAN_GUI.geotran_mainwin as GT_mainwin
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':

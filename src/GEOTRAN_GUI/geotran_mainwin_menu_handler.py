@@ -115,7 +115,7 @@ class GeotranMainmenuHandler():
               ]]
         
 
-    from mainwin import GeotranApp
+    from geotran_mainwin import GeotranApp
 
     def noHandlerFound(self, name=None):
         print("No method found to perform the action: ", name)

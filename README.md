@@ -1,4 +1,4 @@
-#3 GeoTran SW
+## GeoTran SW
 Software for prostprocesssing of transport outputs of models realised in Flow123d simulator.
 
 ## Acknowledgment

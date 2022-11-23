@@ -1,0 +1,1098 @@
+simulation_params:
+  dt: 10
+  time: 300000
+  max_iter: 24
+  include_processes:
+    - conversion
+    - max_solubility
+    - diffusion
+    - sorption
+
+output:
+  step_time: 1000
+  quantities:
+    - fuel_m_kg
+ #   - fuel_n_mol
+ #   - deg_m_kg
+ #   - deg_n_mol
+ #   - cont.water_c_kg/m3
+ #   - cont.water_c_mol/m3
+ #   - cont.water_sat_%
+ #   - granit.water_m_kg
+ #   - granit.water_n_mol
+ #   - granit.water_m(cumsum)_kg
+  isotopes: []
+  elements: [I]
+  summary_quantity: no
+  degradation_rate: no
+  columns_ordering: quantity/name
+  name_ordering: together
+  separators: dec,_col;
+  number_format: .4E
+  file_name: .\kontejner.csv
+  statistics:
+    - cont_max_c
+    - granit_inflow
+  
+container:
+  radius: 0.415
+  height: 3.74
+  free_volume: 0.2
+  T0_water_inflow_time: 2e5
+  fuel_degradation_function:
+    model: user_def
+    user_def:
+      times:    [0,   1e6]
+      values_%: [irf, 100]
+    power:
+      degradation_time_span: 1e6
+      power_factor: 0.3
+      time_step: 100
+  bentonite_contact_area_function:
+    times:    [0]
+    values_%: [10]
+  direct_outflow_into_granite_%/year: 0
+    
+bentonite:
+  width: 0.7
+  dr: 0.1
+  density: 1500
+  zones_outer_bound: [0.3, 0.5, 0.7]
+  porosity:
+    times:   [0]
+    zone1_%: [30]
+    zone2_%: [30]
+    zone3_%: [30]
+  De_b_modification:
+    times:   [0,  3e5, 1e6]
+    zone1_%: [100, 50, 20]
+    zone2_%: [100, 90, 80]
+    zone3_%: [100, 95, 90]
+  Kd_b_modification:
+    times:   [0]
+    zone1_%: [100]
+    zone2_%: [100]
+    zone3_%: [100]
+  bound_model: granite_layer
+
+granite_layer:
+  width: 0.1
+  conc_by_bentonite_bound_conc_%: 0
+  De_source: De_b_%
+  De_b_%: 0
+  
+
+isotopes:
+
+  - name: C14
+    M_kg/mol: 0.014
+    T_1/2_year: 5700
+    conversion_to: odpad
+    init_m_kg: 0.000882
+    irf_%: 10
+    c_max_mol/m3: inf
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 0
+    De_g_m2/s: 5e-15
+
+  - name: Cl36
+    M_kg/mol: 0.036
+    T_1/2_year: 301000
+    conversion_to: odpad
+    init_m_kg: 0.00131
+    irf_%: 5
+    c_max_mol/m3: inf
+    De_b_m2/s: 1e-11
+    Kd_b_m3/kg: 0
+    De_g_m2/s: 8e-15
+
+  - name: Ca41
+    M_kg/mol: 0.041
+    T_1/2_year: 102000
+    conversion_to: odpad
+    init_m_kg: 0
+    irf_%: 0
+    c_max_mol/m3: 10
+    De_b_m2/s: 2e-10
+    Kd_b_m3/kg: 0.003
+    De_g_m2/s: 5e-14
+
+  - name: Ni59
+    M_kg/mol: 0.059
+    T_1/2_year: 76000
+    conversion_to: odpad
+    init_m_kg: 0.000756
+    irf_%: 0
+    c_max_mol/m3: 0.08
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 0.07
+    De_g_m2/s: 2.8e-14
+
+  - name: Ni63
+    M_kg/mol: 0.063
+    T_1/2_year: 98.7
+    conversion_to: odpad
+    init_m_kg: 0.000107
+    irf_%: 0
+    c_max_mol/m3: 0.08
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 0.07
+    De_g_m2/s: 2.8e-14
+
+  - name: Se79
+    M_kg/mol: 0.079
+    T_1/2_year: 356000
+    conversion_to: odpad
+    init_m_kg: 0.0374
+    irf_%: 1
+    c_max_mol/m3: 0.01
+    De_b_m2/s: 1e-11
+    Kd_b_m3/kg: 0
+    De_g_m2/s: 4e-14
+
+  - name: Sr90
+    M_kg/mol: 0.09
+    T_1/2_year: 28.8
+    conversion_to: odpad
+    init_m_kg: 0.111
+    irf_%: 1
+    c_max_mol/m3: 0.1
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 0.001
+    De_g_m2/s: 3e-13
+
+  - name: Mo93
+    M_kg/mol: 0.093
+    T_1/2_year: 4000
+    conversion_to: odpad
+    init_m_kg: 0
+    irf_%: 0
+    c_max_mol/m3: 0.01
+    De_b_m2/s: 3e-12
+    Kd_b_m3/kg: 0
+    De_g_m2/s: 1e-15
+
+  - name: Zr93
+    M_kg/mol: 0.093
+    T_1/2_year: 1.53e+06
+    conversion_to: odpad
+    init_m_kg: 0.822
+    irf_%: 0
+    c_max_mol/m3: 2e-06
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 5
+    De_g_m2/s: 4e-14
+
+  - name: Nb94
+    M_kg/mol: 0.094
+    T_1/2_year: 20000
+    conversion_to: odpad
+    init_m_kg: 8.91e-07
+    irf_%: 0
+    c_max_mol/m3: 0.1
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 3
+    De_g_m2/s: 4e-14
+
+  - name: Tc99
+    M_kg/mol: 0.099
+    T_1/2_year: 214000
+    conversion_to: odpad
+    init_m_kg: 0.873
+    irf_%: 1
+    c_max_mol/m3: 1e-05
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Pd107
+    M_kg/mol: 0.107
+    T_1/2_year: 6.5e+06
+    conversion_to: odpad
+    init_m_kg: 0.276
+    irf_%: 1
+    c_max_mol/m3: 0.0002
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 5
+    De_g_m2/s: 4e-14
+
+  - name: Ag108m
+    M_kg/mol: 0.108
+    T_1/2_year: 438
+    conversion_to: odpad
+    init_m_kg: 3.5e-09
+    irf_%: 0
+    c_max_mol/m3: 0.003
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 0
+    De_g_m2/s: 7.1e-15
+
+  - name: Sn126
+    M_kg/mol: 0.126
+    T_1/2_year: 232000
+    conversion_to: odpad
+    init_m_kg: 0.0769
+    irf_%: 1
+    c_max_mol/m3: 0.0001
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: I129
+    M_kg/mol: 0.129
+    T_1/2_year: 1.61e+07
+    conversion_to: odpad
+    init_m_kg: 0.216
+    irf_%: 3
+    c_max_mol/m3: inf
+    De_b_m2/s: 1e-11
+    Kd_b_m3/kg: 0
+    De_g_m2/s: 8e-15
+
+  - name: Cs135
+    M_kg/mol: 0.135
+    T_1/2_year: 2.3e+06
+    conversion_to: odpad
+    init_m_kg: 0.425
+    irf_%: 2
+    c_max_mol/m3: inf
+    De_b_m2/s: 3e-10
+    Kd_b_m3/kg: 0.03
+    De_g_m2/s: 9e-13
+
+  - name: Cs137
+    M_kg/mol: 0.137
+    T_1/2_year: 30.1
+    conversion_to: odpad
+    init_m_kg: 0.274
+    irf_%: 2
+    c_max_mol/m3: inf
+    De_b_m2/s: 3e-10
+    Kd_b_m3/kg: 0.03
+    De_g_m2/s: 9e-13
+
+  - name: Sm151
+    M_kg/mol: 0.151
+    T_1/2_year: 90
+    conversion_to: odpad
+    init_m_kg: 0.00994
+    irf_%: 0
+    c_max_mol/m3: 0.0009
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 5
+    De_g_m2/s: 4e-14
+
+  - name: Ho166m
+    M_kg/mol: 0.166
+    T_1/2_year: 1200
+    conversion_to: odpad
+    init_m_kg: 2.76e-06
+    irf_%: 0
+    c_max_mol/m3: 0.0009
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 5
+    De_g_m2/s: 4e-14
+
+  - name: Ra226
+    M_kg/mol: 0.226
+    T_1/2_year: 1600
+    conversion_to: odpad
+    init_m_kg: 1.32e-08
+    irf_%: 0
+    c_max_mol/m3: 5e-05
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 0.001
+    De_g_m2/s: 3.7e-14
+
+  - name: Th229
+    M_kg/mol: 0.229
+    T_1/2_year: 7340
+    conversion_to: odpad
+    init_m_kg: 4.43e-09
+    irf_%: 0
+    c_max_mol/m3: 0.003
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 6.3e-15
+
+  - name: Th230
+    M_kg/mol: 0.23
+    T_1/2_year: 75400
+    conversion_to: Ra226
+    init_m_kg: 4.46e-05
+    irf_%: 0
+    c_max_mol/m3: 0.003
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 6.3e-15
+
+  - name: Pa231
+    M_kg/mol: 0.231
+    T_1/2_year: 32800
+    conversion_to: odpad
+    init_m_kg: 8.49e-07
+    irf_%: 0
+    c_max_mol/m3: 0.01
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 3
+    De_g_m2/s: 4e-14
+
+  - name: Th232
+    M_kg/mol: 0.232
+    T_1/2_year: 1.41e+10
+    conversion_to: odpad
+    init_m_kg: 8.91e-06
+    irf_%: 0
+    c_max_mol/m3: 0.003
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 6.3e-15
+
+  - name: U233
+    M_kg/mol: 0.233
+    T_1/2_year: 159000
+    conversion_to: Th229
+    init_m_kg: 1.82e-05
+    irf_%: 0
+    c_max_mol/m3: 0.0005
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: U234
+    M_kg/mol: 0.234
+    T_1/2_year: 246000
+    conversion_to: Th230
+    init_m_kg: 0.284
+    irf_%: 0
+    c_max_mol/m3: 0.0005
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: U235
+    M_kg/mol: 0.235
+    T_1/2_year: 7.04e+08
+    conversion_to: Pa231
+    init_m_kg: 5.6
+    irf_%: 0
+    c_max_mol/m3: 0.0005
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: U236
+    M_kg/mol: 0.236
+    T_1/2_year: 2.34e+07
+    conversion_to: Th232
+    init_m_kg: 4.23
+    irf_%: 0
+    c_max_mol/m3: 0.0005
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Np237
+    M_kg/mol: 0.237
+    T_1/2_year: 2.14e+06
+    conversion_to: U233
+    init_m_kg: 0.803
+    irf_%: 0
+    c_max_mol/m3: 1e-05
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Pu238
+    M_kg/mol: 0.238
+    T_1/2_year: 87.7
+    conversion_to: U234
+    init_m_kg: 0.174
+    irf_%: 0
+    c_max_mol/m3: 0.001
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: U238
+    M_kg/mol: 0.238
+    T_1/2_year: 4.47e+09
+    conversion_to: U234
+    init_m_kg: 783
+    irf_%: 0
+    c_max_mol/m3: 0.0005
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Pu239
+    M_kg/mol: 0.239
+    T_1/2_year: 24100
+    conversion_to: U235
+    init_m_kg: 5.71
+    irf_%: 0
+    c_max_mol/m3: 0.001
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Pu240
+    M_kg/mol: 0.24
+    T_1/2_year: 6560
+    conversion_to: U236
+    init_m_kg: 2.59
+    irf_%: 0
+    c_max_mol/m3: 0.001
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Am241
+    M_kg/mol: 0.241
+    T_1/2_year: 433
+    conversion_to: Np237
+    init_m_kg: 1.23
+    irf_%: 0
+    c_max_mol/m3: 0.03
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 4e-14
+
+  - name: Am242m
+    M_kg/mol: 0.242
+    T_1/2_year: 141
+    conversion_to: Pu242
+    init_m_kg: 0.0015
+    irf_%: 0
+    c_max_mol/m3: 0.03
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 4e-14
+
+  - name: Pu242
+    M_kg/mol: 0.242
+    T_1/2_year: 373000
+    conversion_to: U238
+    init_m_kg: 0.568
+    irf_%: 0
+    c_max_mol/m3: 0.001
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Am243
+    M_kg/mol: 0.243
+    T_1/2_year: 7370
+    conversion_to: Pu239
+    init_m_kg: 0.165
+    irf_%: 0
+    c_max_mol/m3: 0.03
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 4e-14
+
+  - name: Cm244
+    M_kg/mol: 0.244
+    T_1/2_year: 18.1
+    conversion_to: Pu240
+    init_m_kg: 0.00527
+    irf_%: 0
+    c_max_mol/m3: 0.03
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 4e-14
+
+  - name: Cm245
+    M_kg/mol: 0.245
+    T_1/2_year: 8480
+    conversion_to: Pu241
+    init_m_kg: 0.00389
+    irf_%: 0
+    c_max_mol/m3: 0.03
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 4e-14
+
+  - name: Cm246
+    M_kg/mol: 0.246
+    T_1/2_year: 4760
+    conversion_to: Pu242
+    init_m_kg: 0.000573
+    irf_%: 0
+    c_max_mol/m3: 0.03
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 4e-14
+
+  - name: Pu241
+    M_kg/mol: 0.241
+    T_1/2_year: 1.2E3
+    conversion_to: Am241
+    init_m_kg: 9.17e-2
+    irf_%: 0
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    c_max_mol/m3: 1e-3
+    De_g_m2/s: 1.2e-14
+
+  - name: odpad
+    M_kg/mol: 0.1
+    T_1/2_year: inf
+    init_m_kg: 0
+    irf_%: 0
+    c_max_mol/m3: inf
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 1.2e-13
+
+simulation_params:
+  dt: 10
+  time: 300000
+  max_iter: 24
+  include_processes:
+    - conversion
+    - max_solubility
+    - diffusion
+    - sorption
+
+output:
+  step_time: 1000
+  quantities:
+    - fuel_m_kg
+ #   - fuel_n_mol
+ #   - deg_m_kg
+ #   - deg_n_mol
+ #   - cont.water_c_kg/m3
+ #   - cont.water_c_mol/m3
+ #   - cont.water_sat_%
+ #   - granit.water_m_kg
+ #   - granit.water_n_mol
+ #   - granit.water_m(cumsum)_kg
+  isotopes: []
+  elements: [I]
+  summary_quantity: no
+  degradation_rate: no
+  columns_ordering: quantity/name
+  name_ordering: together
+  separators: dec,_col;
+  number_format: .4E
+  file_name: .\kontejner.csv
+  statistics:
+    - cont_max_c
+    - granit_inflow
+  
+container:
+  radius: 0.415
+  height: 3.74
+  free_volume: 0.2
+  T0_water_inflow_time: 2e5
+  fuel_degradation_function:
+    model: user_def
+    user_def:
+      times:    [0,   1e6]
+      values_%: [irf, 100]
+    power:
+      degradation_time_span: 1e6
+      power_factor: 0.3
+      time_step: 100
+  bentonite_contact_area_function:
+    times:    [0]
+    values_%: [10]
+  direct_outflow_into_granite_%/year: 0
+    
+bentonite:
+  width: 0.7
+  dr: 0.1
+  density: 1500
+  zones_outer_bound: [0.3, 0.5, 0.7]
+  porosity:
+    times:   [0]
+    zone1_%: [30]
+    zone2_%: [30]
+    zone3_%: [30]
+  De_b_modification:
+    times:   [0,  3e5, 1e6]
+    zone1_%: [100, 50, 20]
+    zone2_%: [100, 90, 80]
+    zone3_%: [100, 95, 90]
+  Kd_b_modification:
+    times:   [0]
+    zone1_%: [100]
+    zone2_%: [100]
+    zone3_%: [100]
+  bound_model: granite_layer
+
+granite_layer:
+  width: 0.1
+  conc_by_bentonite_bound_conc_%: 0
+  De_source: De_b_%
+  De_b_%: 0
+  
+
+isotopes:
+
+  - name: C14
+    M_kg/mol: 0.014
+    T_1/2_year: 5700
+    conversion_to: odpad
+    init_m_kg: 0.000882
+    irf_%: 10
+    c_max_mol/m3: inf
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 0
+    De_g_m2/s: 5e-15
+
+  - name: Cl36
+    M_kg/mol: 0.036
+    T_1/2_year: 301000
+    conversion_to: odpad
+    init_m_kg: 0.00131
+    irf_%: 5
+    c_max_mol/m3: inf
+    De_b_m2/s: 1e-11
+    Kd_b_m3/kg: 0
+    De_g_m2/s: 8e-15
+
+  - name: Ca41
+    M_kg/mol: 0.041
+    T_1/2_year: 102000
+    conversion_to: odpad
+    init_m_kg: 0
+    irf_%: 0
+    c_max_mol/m3: 10
+    De_b_m2/s: 2e-10
+    Kd_b_m3/kg: 0.003
+    De_g_m2/s: 5e-14
+
+  - name: Ni59
+    M_kg/mol: 0.059
+    T_1/2_year: 76000
+    conversion_to: odpad
+    init_m_kg: 0.000756
+    irf_%: 0
+    c_max_mol/m3: 0.08
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 0.07
+    De_g_m2/s: 2.8e-14
+
+  - name: Ni63
+    M_kg/mol: 0.063
+    T_1/2_year: 98.7
+    conversion_to: odpad
+    init_m_kg: 0.000107
+    irf_%: 0
+    c_max_mol/m3: 0.08
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 0.07
+    De_g_m2/s: 2.8e-14
+
+  - name: Se79
+    M_kg/mol: 0.079
+    T_1/2_year: 356000
+    conversion_to: odpad
+    init_m_kg: 0.0374
+    irf_%: 1
+    c_max_mol/m3: 0.01
+    De_b_m2/s: 1e-11
+    Kd_b_m3/kg: 0
+    De_g_m2/s: 4e-14
+
+  - name: Sr90
+    M_kg/mol: 0.09
+    T_1/2_year: 28.8
+    conversion_to: odpad
+    init_m_kg: 0.111
+    irf_%: 1
+    c_max_mol/m3: 0.1
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 0.001
+    De_g_m2/s: 3e-13
+
+  - name: Mo93
+    M_kg/mol: 0.093
+    T_1/2_year: 4000
+    conversion_to: odpad
+    init_m_kg: 0
+    irf_%: 0
+    c_max_mol/m3: 0.01
+    De_b_m2/s: 3e-12
+    Kd_b_m3/kg: 0
+    De_g_m2/s: 1e-15
+
+  - name: Zr93
+    M_kg/mol: 0.093
+    T_1/2_year: 1.53e+06
+    conversion_to: odpad
+    init_m_kg: 0.822
+    irf_%: 0
+    c_max_mol/m3: 2e-06
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 5
+    De_g_m2/s: 4e-14
+
+  - name: Nb94
+    M_kg/mol: 0.094
+    T_1/2_year: 20000
+    conversion_to: odpad
+    init_m_kg: 8.91e-07
+    irf_%: 0
+    c_max_mol/m3: 0.1
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 3
+    De_g_m2/s: 4e-14
+
+  - name: Tc99
+    M_kg/mol: 0.099
+    T_1/2_year: 214000
+    conversion_to: odpad
+    init_m_kg: 0.873
+    irf_%: 1
+    c_max_mol/m3: 1e-05
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Pd107
+    M_kg/mol: 0.107
+    T_1/2_year: 6.5e+06
+    conversion_to: odpad
+    init_m_kg: 0.276
+    irf_%: 1
+    c_max_mol/m3: 0.0002
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 5
+    De_g_m2/s: 4e-14
+
+  - name: Ag108m
+    M_kg/mol: 0.108
+    T_1/2_year: 438
+    conversion_to: odpad
+    init_m_kg: 3.5e-09
+    irf_%: 0
+    c_max_mol/m3: 0.003
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 0
+    De_g_m2/s: 7.1e-15
+
+  - name: Sn126
+    M_kg/mol: 0.126
+    T_1/2_year: 232000
+    conversion_to: odpad
+    init_m_kg: 0.0769
+    irf_%: 1
+    c_max_mol/m3: 0.0001
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: I129
+    M_kg/mol: 0.129
+    T_1/2_year: 1.61e+07
+    conversion_to: odpad
+    init_m_kg: 0.216
+    irf_%: 3
+    c_max_mol/m3: inf
+    De_b_m2/s: 1e-11
+    Kd_b_m3/kg: 0
+    De_g_m2/s: 8e-15
+
+  - name: Cs135
+    M_kg/mol: 0.135
+    T_1/2_year: 2.3e+06
+    conversion_to: odpad
+    init_m_kg: 0.425
+    irf_%: 2
+    c_max_mol/m3: inf
+    De_b_m2/s: 3e-10
+    Kd_b_m3/kg: 0.03
+    De_g_m2/s: 9e-13
+
+  - name: Cs137
+    M_kg/mol: 0.137
+    T_1/2_year: 30.1
+    conversion_to: odpad
+    init_m_kg: 0.274
+    irf_%: 2
+    c_max_mol/m3: inf
+    De_b_m2/s: 3e-10
+    Kd_b_m3/kg: 0.03
+    De_g_m2/s: 9e-13
+
+  - name: Sm151
+    M_kg/mol: 0.151
+    T_1/2_year: 90
+    conversion_to: odpad
+    init_m_kg: 0.00994
+    irf_%: 0
+    c_max_mol/m3: 0.0009
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 5
+    De_g_m2/s: 4e-14
+
+  - name: Ho166m
+    M_kg/mol: 0.166
+    T_1/2_year: 1200
+    conversion_to: odpad
+    init_m_kg: 2.76e-06
+    irf_%: 0
+    c_max_mol/m3: 0.0009
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 5
+    De_g_m2/s: 4e-14
+
+  - name: Ra226
+    M_kg/mol: 0.226
+    T_1/2_year: 1600
+    conversion_to: odpad
+    init_m_kg: 1.32e-08
+    irf_%: 0
+    c_max_mol/m3: 5e-05
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 0.001
+    De_g_m2/s: 3.7e-14
+
+  - name: Th229
+    M_kg/mol: 0.229
+    T_1/2_year: 7340
+    conversion_to: odpad
+    init_m_kg: 4.43e-09
+    irf_%: 0
+    c_max_mol/m3: 0.003
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 6.3e-15
+
+  - name: Th230
+    M_kg/mol: 0.23
+    T_1/2_year: 75400
+    conversion_to: Ra226
+    init_m_kg: 4.46e-05
+    irf_%: 0
+    c_max_mol/m3: 0.003
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 6.3e-15
+
+  - name: Pa231
+    M_kg/mol: 0.231
+    T_1/2_year: 32800
+    conversion_to: odpad
+    init_m_kg: 8.49e-07
+    irf_%: 0
+    c_max_mol/m3: 0.01
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 3
+    De_g_m2/s: 4e-14
+
+  - name: Th232
+    M_kg/mol: 0.232
+    T_1/2_year: 1.41e+10
+    conversion_to: odpad
+    init_m_kg: 8.91e-06
+    irf_%: 0
+    c_max_mol/m3: 0.003
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 6.3e-15
+
+  - name: U233
+    M_kg/mol: 0.233
+    T_1/2_year: 159000
+    conversion_to: Th229
+    init_m_kg: 1.82e-05
+    irf_%: 0
+    c_max_mol/m3: 0.0005
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: U234
+    M_kg/mol: 0.234
+    T_1/2_year: 246000
+    conversion_to: Th230
+    init_m_kg: 0.284
+    irf_%: 0
+    c_max_mol/m3: 0.0005
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: U235
+    M_kg/mol: 0.235
+    T_1/2_year: 7.04e+08
+    conversion_to: Pa231
+    init_m_kg: 5.6
+    irf_%: 0
+    c_max_mol/m3: 0.0005
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: U236
+    M_kg/mol: 0.236
+    T_1/2_year: 2.34e+07
+    conversion_to: Th232
+    init_m_kg: 4.23
+    irf_%: 0
+    c_max_mol/m3: 0.0005
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Np237
+    M_kg/mol: 0.237
+    T_1/2_year: 2.14e+06
+    conversion_to: U233
+    init_m_kg: 0.803
+    irf_%: 0
+    c_max_mol/m3: 1e-05
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Pu238
+    M_kg/mol: 0.238
+    T_1/2_year: 87.7
+    conversion_to: U234
+    init_m_kg: 0.174
+    irf_%: 0
+    c_max_mol/m3: 0.001
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: U238
+    M_kg/mol: 0.238
+    T_1/2_year: 4.47e+09
+    conversion_to: U234
+    init_m_kg: 783
+    irf_%: 0
+    c_max_mol/m3: 0.0005
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Pu239
+    M_kg/mol: 0.239
+    T_1/2_year: 24100
+    conversion_to: U235
+    init_m_kg: 5.71
+    irf_%: 0
+    c_max_mol/m3: 0.001
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Pu240
+    M_kg/mol: 0.24
+    T_1/2_year: 6560
+    conversion_to: U236
+    init_m_kg: 2.59
+    irf_%: 0
+    c_max_mol/m3: 0.001
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Am241
+    M_kg/mol: 0.241
+    T_1/2_year: 433
+    conversion_to: Np237
+    init_m_kg: 1.23
+    irf_%: 0
+    c_max_mol/m3: 0.03
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 4e-14
+
+  - name: Am242m
+    M_kg/mol: 0.242
+    T_1/2_year: 141
+    conversion_to: Pu242
+    init_m_kg: 0.0015
+    irf_%: 0
+    c_max_mol/m3: 0.03
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 4e-14
+
+  - name: Pu242
+    M_kg/mol: 0.242
+    T_1/2_year: 373000
+    conversion_to: U238
+    init_m_kg: 0.568
+    irf_%: 0
+    c_max_mol/m3: 0.001
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    De_g_m2/s: 4e-14
+
+  - name: Am243
+    M_kg/mol: 0.243
+    T_1/2_year: 7370
+    conversion_to: Pu239
+    init_m_kg: 0.165
+    irf_%: 0
+    c_max_mol/m3: 0.03
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 4e-14
+
+  - name: Cm244
+    M_kg/mol: 0.244
+    T_1/2_year: 18.1
+    conversion_to: Pu240
+    init_m_kg: 0.00527
+    irf_%: 0
+    c_max_mol/m3: 0.03
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 4e-14
+
+  - name: Cm245
+    M_kg/mol: 0.245
+    T_1/2_year: 8480
+    conversion_to: Pu241
+    init_m_kg: 0.00389
+    irf_%: 0
+    c_max_mol/m3: 0.03
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 4e-14
+
+  - name: Cm246
+    M_kg/mol: 0.246
+    T_1/2_year: 4760
+    conversion_to: Pu242
+    init_m_kg: 0.000573
+    irf_%: 0
+    c_max_mol/m3: 0.03
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 4e-14
+
+  - name: Pu241
+    M_kg/mol: 0.241
+    T_1/2_year: 1.2E3
+    conversion_to: Am241
+    init_m_kg: 9.17e-2
+    irf_%: 0
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 40
+    c_max_mol/m3: 1e-3
+    De_g_m2/s: 1.2e-14
+
+  - name: odpad
+    M_kg/mol: 0.1
+    T_1/2_year: inf
+    init_m_kg: 0
+    irf_%: 0
+    c_max_mol/m3: inf
+    De_b_m2/s: 1.2e-10
+    Kd_b_m3/kg: 24
+    De_g_m2/s: 1.2e-13
+
+
+
+
+

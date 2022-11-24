@@ -22,7 +22,7 @@ class Info:
       if reset:
          self.ind = 0
          self.start_times.clear()
-      print(self.process_name + ": " + self.ind*".  " + chr(31) + " " + s + ' ...', file=self.outfile, flush=True)
+      print(self.process_name + ": " + self.ind*".  " + ">>> " + s + ' ...', file=self.outfile, flush=True)
       self.start_times.append(datetime.datetime.now())
       self.ind += 1
 
@@ -45,8 +45,8 @@ class Info:
    def OK(self, s=None):
       self.ind -= 1
       time = self._gettime(self.start_times.pop())
-      s = " "+s+" " if s is not None else " "
-      print(self.process_name + ": " + self.ind*".  " + chr(30) + " " + time + s + "OK.", file=self.outfile, flush=True)
+      s = " Result: "+s if s is not None else ""
+      print(self.process_name + ": " + self.ind*".  " + "OK. Duration time: " + time + s, file=self.outfile, flush=True)
       self.last_timespan = time
 
 

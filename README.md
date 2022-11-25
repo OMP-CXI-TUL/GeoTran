@@ -3,7 +3,7 @@
 ## GEOTRANtools
 Software for processsing of transport outputs of models realised in Flow123d simulator.
 
-## BioRad SW Instalation file
+## GeoTran SW Instalation file
 Please use the following link for direct installation on 64bit Windows machines
 
 [Windows 64bit](https://astra.nti.tul.cz/~jirina.kralovcova/software/GeoTran_1.0_x86_64.exe)
